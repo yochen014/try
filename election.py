@@ -1,14 +1,21 @@
 # Precident election
 import math
 import time
-import random 
-player_name = input("Please input the player's name: ")
+import random
 
+def poll_initialization(player_data, com_data, area, bonus):
+    pass
+
+def poll_maker(party_data):
+    pass
+
+player_name = input("Please input the player's name: ")
 
 print("Hello!", player_name, "\n")
 while True:
+    first_turn = True
     print("It's a new turn!")
-    player_party = input("Which party would you like to join in?(Democracy or Republican): ")
+    player_party = input("Which party would you like to join in?(Democracy or Republican or quit): ")
     special_bonus = ["+1percentgrow", "+1.5percentpopulation"]
 
     random.seed(100)
@@ -33,18 +40,36 @@ while True:
     ]
     #Democracy: index[voter_population, growth_rate]
     democracy = [
-        [52, 1.1],
-        [55, 1.4],
-        [56, 1.4]
+        [52, 1.1],#台北
+        [55, 1.4],#台中
+        [56, 1.4],#新北
+        [47, 1.1],#桃園
+        [49, 1.2],#基隆
+        [53, 1.4],#新竹
+        [57, 1.5],#苗栗
+        [46, 1.2],#宜蘭
+        [70, 1.5],#花蓮
+        [55, 1.1],#南投
+        [48, 1.2],#彰化
+        [46, 1.2],#雲林
+        [35, 1.2],#嘉義
+        [37, 1.0],#台南
+        [42, 1.0],#高雄
+        [41, 1.1] #屏東
+    ]
+    republican = [
+        []
     ]
 
     #choice party
     if player_party[0].lower() == "r":
-        player_party = "r"
+        player_party = republican
         special_bonus = special_bonus[0]
         print("\nYou got a special bonus: +1% vote growth rate!\n")
+    elif player_party[0].lower() == "q":
+        break
     else:
-        player_party = "d"
+        player_party = democracy
         special_bonus = special_bonus[1]
         print("\nBecause the government has an advantage...")
         print("You got a special bonus: +1.5% population vote!\n")
@@ -52,6 +77,8 @@ while True:
     #reveal the amount of voters
     for i in range(len(area)):
         print(f"{area[i][0]}: {area[i][1]}")
-    
+    if first_turn:
+        first_turn = False
+        poll_initialization(player_party, com_party, area, special_bonus)
     print("Here is a poll:")
 
