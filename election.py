@@ -3,8 +3,17 @@ import math
 import time
 import random
 
-def poll_initialization(player_data, com_data, area, bonus):
-    pass
+def player_poll_initialization(player_data, area, bonus):
+    player = [] #intend to be returned
+    for i in range(len(area)):
+        player.append([int(area[i][1]*player_data[i][0]*0.01)])
+    return player
+
+def com_poll_initialization(com_data, area):
+    com = [] #intend to be returned
+    for i in range(len(area)):
+        com.append([int(area[i][1]*com_data[i][0]*0.01)])
+    return com
 
 def poll_maker(party_data):
     pass
@@ -16,8 +25,10 @@ while True:
     first_turn = True
     print("It's a new turn!")
     player_party = input("Which party would you like to join in?(Democracy or Republican or quit): ")
+    com_party = ""
     special_bonus = ["+1percentgrow", "+1.5percentpopulation"]
-
+    player_poll_data = []
+    com_poll_data = []
     random.seed(100)
     #地區選票總人口
     area = [
@@ -58,18 +69,35 @@ while True:
         [41, 1.1] #屏東
     ]
     republican = [
-        []
+        [48, 1.2],#台北
+        [45, 1.2],#台中
+        [44, 1.1],#新北
+        [53, 1.2],#桃園
+        [51, 1.1],#基隆
+        [47, 1.1],#新竹
+        [43, 1.0],#苗栗
+        [54, 1.2],#宜蘭
+        [30, 1.0],#花蓮
+        [45, 1.1],#南投
+        [52, 1.2],#彰化
+        [54, 1.2],#雲林
+        [65, 1.2],#嘉義
+        [63, 1.3],#台南
+        [58, 1.3],#高雄
+        [59, 1.2] #屏東
     ]
 
     #choice party
     if player_party[0].lower() == "r":
         player_party = republican
+        com_pary = democracy
         special_bonus = special_bonus[0]
         print("\nYou got a special bonus: +1% vote growth rate!\n")
     elif player_party[0].lower() == "q":
         break
     else:
         player_party = democracy
+        com_party = republican
         special_bonus = special_bonus[1]
         print("\nBecause the government has an advantage...")
         print("You got a special bonus: +1.5% population vote!\n")
@@ -77,8 +105,20 @@ while True:
     #reveal the amount of voters
     for i in range(len(area)):
         print(f"{area[i][0]}: {area[i][1]}")
-    if first_turn:
-        first_turn = False
-        poll_initialization(player_party, com_party, area, special_bonus)
-    print("Here is a poll:")
+    
+
+    while True: #election campaign start
+        if first_turn:
+            first_turn = False
+            player_poll_data = player_poll_initialization(player_party, area, special_bonus)
+            com_poll_data = com_poll_initialization(com_party, area)
+        print(f"\nPlayer: {}")
+        for i in range(len(player_poll_data)):
+            print(f"{area[i][0]}: {player_poll_data[i][0]}")
+        print(f"\nCom: {}")
+        for i in range(len(com_poll_data)):
+            print(f"{area[i][0]}: {com_poll_data[i][0]}")
+
+        print("Here is a poll:")
+        break
 
